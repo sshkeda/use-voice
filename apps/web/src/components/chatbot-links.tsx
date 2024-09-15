@@ -23,7 +23,7 @@ export default function ChatbotLinks({ chatbotName }: { chatbotName: string }) {
           return (
             <Button
               variant="outline"
-              className="md:rounded-2xl rounded-b-none border-b-0 border-r"
+              className="rounded-b-none border-b-0 border-r md:rounded-t-2xl"
               size="sm"
               key={name}
               asChild
