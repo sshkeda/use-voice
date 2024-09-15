@@ -196,6 +196,7 @@ export function useVoice(options = undefined) {
       // .on("participantDisconnected", stop)
       .on("disconnected", console.log)
       .on(RoomEvent.ParticipantConnected, async () => {
+        resetKeepAliveTimeout();
         await room.localParticipant.setMicrophoneEnabled(!joinMuted);
         setState("connected");
 
