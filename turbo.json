@@ -1,0 +1,39 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "env": [
+        "NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+        "NEXT_PUBLIC_USE_VOICE_ACCESS_TOKEN",
+        "DATABASE_AUTH_TOKEN",
+        "DATABASE_URL",
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "BACKEND_API_URL",
+        "LIVEKIT_API_KEY",
+        "LIVEKIT_URL",
+        "LIVEKIT_API_SECRET",
+        "USE_VOICE_SECRET"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
+    },
+    "check-types": {
+      "dependsOn": [
+        "^check-types"
+      ]
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    }
+  }
+}

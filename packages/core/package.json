@@ -1,0 +1,30 @@
+{
+  "name": "use-voice",
+  "version": "1.0.2",
+  "author": "Stephen Shkeda <stephenshkeda@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc",
+    "lint": "eslint ./src/**"
+  },
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "types": "./types/index.d.ts",
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "@types/react": "^18",
+    "eslint": "8.x",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "livekit-client": "^2.5.0",
+    "react": "^18"
+  }
+}
