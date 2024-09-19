@@ -45,7 +45,7 @@ export default function Home() {
                 size="none"
                 asChild
               >
-                <Link href="/docs">
+                <Link href="https://github.com/sshkeda/use-voice">
                   <Book className="h-[22px] w-[22px]" />
                 </Link>
               </Button>
