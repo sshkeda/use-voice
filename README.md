@@ -1,6 +1,6 @@
 # use-voice
 
-[use-voice](https://github.com/sshkeda/use-voice) is a developer-oriented open-source platform for building voice AI chatbots. It abstracts away the complexities of creating speech-to-speech pipelines, allowing you to focus on building the best voice AI applications.
+[use-voice](https://use-voice.com) is a developer-oriented open-source platform for building voice AI chatbots. It abstracts away the complexities of creating speech-to-speech pipelines, allowing you to focus on building the best voice AI applications.
 
 ## Features
 
