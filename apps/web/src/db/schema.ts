@@ -8,36 +8,9 @@ export const users = sqliteTable("users", {
 
 export const usersRelations = relations(users, ({ many }) => ({
   chatbots: many(chatbots),
-  settings: many(userSettings),
   sessions: many(sessions),
 }));
 
-export const userSettings = sqliteTable(
-  "user_settings",
-  {
-    id: text("id").notNull(),
-    value: text("value").notNull(),
-    valueType: text("valueType", {
-      enum: ["string", "int", "float"],
-    })
-      .notNull()
-      .default("string"),
-    category: text("category"),
-    userId: text("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-  },
-  (t) => ({
-    unq: unique().on(t.userId, t.id),
-  }),
-);
-
-export const userSettingsRelations = relations(userSettings, ({ one }) => ({
-  user: one(users, {
-    fields: [userSettings.userId],
-    references: [users.id],
-  }),
-}));
 
 export const chatbots = sqliteTable(
   "chatbots",
@@ -117,7 +90,6 @@ export const sessions = sqliteTable(
     duration: int("duration").notNull(),
     accessToken: text("access_token").notNull(),
   },
-
 )
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({

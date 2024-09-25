@@ -5,7 +5,6 @@ import { chatbots } from "@/db/schema";
 import { env } from "@/env.mjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -36,6 +35,5 @@ export async function deleteChatbot(chatbotName: string) {
     .delete(chatbots)
     .where(and(eq(chatbots.userId, user.id), eq(chatbots.name, chatbotName)));
 
-  revalidatePath("/chatbots");
-  redirect("/chatbots");
+
 }

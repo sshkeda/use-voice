@@ -1,21 +1,30 @@
 "use client";
 
-import { Check, ChevronDown, ChevronUp, X } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Plus, X } from "lucide-react";
 import * as Select from "@radix-ui/react-select";
 import { Providers } from "@/lib/providers";
 import { FormControl } from "./ui/form";
 import { Button } from "./ui/button";
+import CustomLLM from "./custom-llm";
+import { useState } from "react";
+import { UseFormReturn } from "react-hook-form";
 
 export default function ProviderSelect({
   value,
   onChange,
   providers,
+  custom = false,
+  rootForm,
 }: {
   value: string;
   onChange: (value: string) => void;
   providers: Providers;
+  custom?: boolean;
+  rootForm?: UseFormReturn<any>;
 }) {
   const provider = providers[value];
+  const customProvider = value && !provider;
+  const [openCustom, setOpenCustom] = useState(false);
 
   return (
     <Select.Root
@@ -25,10 +34,19 @@ export default function ProviderSelect({
       }}
       defaultValue={value}
     >
+      {custom && rootForm && (
+        <CustomLLM
+          rootForm={rootForm}
+          open={openCustom}
+          setOpen={setOpenCustom}
+        />
+      )}
       <FormControl>
         <Select.Trigger asChild>
-          {provider ? (
-            <button className="flex h-16 min-w-[236px] items-center justify-between space-x-16 rounded-md p-2 hover:bg-muted">
+          <button className="flex h-16 min-w-[236px] items-center justify-between space-x-16 rounded-md p-2 hover:bg-muted">
+            {customProvider ? (
+              <>abc</>
+            ) : provider ? (
               <div className="inline-flex items-center">
                 <Select.Icon className="h-6 w-6" asChild>
                   {provider.icon}
@@ -40,16 +58,14 @@ export default function ProviderSelect({
                   </p>
                 </div>
               </div>
-              <ChevronDown className="h-5 w-5 text-muted-foreground" />
-            </button>
-          ) : (
-            <button className="flex h-16 min-w-[236px] items-center justify-between rounded-md p-2 hover:bg-muted">
+            ) : (
               <p className="text-sm text-muted-foreground">
                 no provider selected
               </p>
-              <ChevronDown className="h-5 w-5 text-muted-foreground" />
-            </button>
-          )}
+            )}
+
+            <ChevronDown className="h-5 w-5 stroke-muted-foreground" />
+          </button>
         </Select.Trigger>
       </FormControl>
       <Select.Portal>
@@ -90,6 +106,16 @@ export default function ProviderSelect({
                   </Select.Item>
                 ),
               )}
+              {custom && (
+                <button
+                  className="flex w-full items-center rounded-md p-2 text-muted-foreground outline-none hover:bg-accent"
+                  onClick={() => setOpenCustom(true)}
+                >
+                  <Plus className="mr-2 h-6 w-6 stroke-muted-foreground" />
+                  custom model
+                </button>
+              )}
+
               {provider && (
                 <Select.Item
                   value="none"

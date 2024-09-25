@@ -9,6 +9,7 @@ import {
   CONFIG_SCHEMA,
   parseSettings,
   SECRETS_SCHEMA,
+  softParse,
   validateConfig,
 } from "@/lib/settings";
 
@@ -60,13 +61,11 @@ export async function POST(request: Request) {
     CONFIG_SCHEMA,
     accessTokenSetting.chatbot.settings,
   );
-  const secrets = parseSettings(
-    SECRETS_SCHEMA,
-    accessTokenSetting.chatbot.settings,
-  );
+
+  const secrets = softParse(accessTokenSetting.chatbot.settings);
 
 
-  if (!validateConfig(config, secrets)) return new Response("Invalid config", { status: 400 });
+  // if (!validateConfig(config)) return new Response("Invalid config", { status: 400 });
 
   const at = new AccessToken(env.LIVEKIT_API_KEY, env.LIVEKIT_API_SECRET, {
     identity: "init",

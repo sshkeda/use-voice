@@ -49,8 +49,13 @@ export default function DeleteChatbot({
             }}
             disabled={deleting}
           >
-            {deleting && <Loader />}
-            delete
+            {deleting ? (
+              <>
+                <Loader /> deleting
+              </>
+            ) : (
+              "delete"
+            )}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

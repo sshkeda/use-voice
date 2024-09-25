@@ -14,7 +14,7 @@ export default async function Chatbots() {
       chatbots: true,
     },
   });
-  if (!account) redirect("/onboarding");
+  if (!account) redirect("/new");
 
   return (
     <main className="mx-auto mt-6 max-w-screen-lg px-4">

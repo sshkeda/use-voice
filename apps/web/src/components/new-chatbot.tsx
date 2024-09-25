@@ -23,8 +23,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { createChatbot } from "@/app/(main)/chatbots/actions";
 import Loader from "./ui/loader";
+import { useRouter } from "next/navigation";
 
 export default function NewChatbot({ allChatbots }: { allChatbots: string[] }) {
+  const router = useRouter();
   const FormSchema = z.object({
     name: z
       .string()
@@ -52,12 +54,14 @@ export default function NewChatbot({ allChatbots }: { allChatbots: string[] }) {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     await createChatbot(data.name);
+
+    router.push(`/chatbots/${data.name}`);
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary" className="w-60 h-20">
+        <Button variant="secondary" className="h-20 w-60">
           <Plus className="mr-2 h-5 w-5" /> new chatbot
         </Button>
       </DialogTrigger>
@@ -90,7 +94,7 @@ export default function NewChatbot({ allChatbots }: { allChatbots: string[] }) {
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting && <Loader />}
-              Create
+              create
             </Button>
           </form>
         </Form>

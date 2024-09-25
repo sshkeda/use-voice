@@ -21,7 +21,6 @@ export default function SessionDialog({
     content: string;
   }[];
 
-  console.log(messages);
   return (
     <Dialog>
       <DialogTrigger asChild>

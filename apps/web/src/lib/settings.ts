@@ -18,7 +18,7 @@ export const SECRETS_SCHEMA = z.object({
   "tts/OpenAI": z.string().optional().default(""),
   "tts/ElevenLabs": z.string().optional().default(""),
   "tts/Cartesia": z.string().optional().default(""),
-});
+})
 
 export type STT_SETTINGS = z.infer<typeof STT_SCHEMA>;
 export const STT_SCHEMA = z.object({
@@ -39,7 +39,7 @@ export type LLM_SETTINGS = z.infer<typeof LLM_SCHEMA>;
 export const LLM_SCHEMA = z.object({
   "llm/provider": z.string().default(""),
   "llm/system_message": z.string().optional().default(""),
-});
+})
 
 export type TTS_SETTINGS = z.infer<typeof TTS_SCHEMA>;
 export const TTS_SCHEMA = z.object({
@@ -52,15 +52,12 @@ export type CONFIG_SETTINGS = z.infer<typeof CONFIG_SCHEMA>;
 export const CONFIG_SCHEMA = STT_SCHEMA.merge(LLM_SCHEMA).merge(TTS_SCHEMA);
 export const configAtom = atom<CONFIG_SETTINGS>(CONFIG_SCHEMA.parse({}));
 
-export function parseSettings<T extends ZodTypeAny>(
-  schema: T,
-  settings: {
-    id: string;
-    value: string;
-    valueType: "int" | "float" | "string";
-  }[],
-): z.infer<typeof schema> {
-  const parsedSettings = settings.reduce(
+export function softParse(settings: {
+  id: string;
+  value: string;
+  valueType: "int" | "float" | "string";
+}[]) {
+  return settings.reduce(
     (acc, { id, value, valueType }) => {
       let parsedValue: string | number = value;
 
@@ -75,8 +72,17 @@ export function parseSettings<T extends ZodTypeAny>(
     },
     {} as { [id: string]: string | number | undefined },
   );
+}
 
-  return schema.parse(parsedSettings);
+export function parseSettings<T extends ZodTypeAny>(
+  schema: T,
+  settings: {
+    id: string;
+    value: string;
+    valueType: "int" | "float" | "string";
+  }[],
+): z.infer<typeof schema> {
+  return schema.parse(softParse(settings));
 }
 
 export function getSecret(
@@ -90,6 +96,7 @@ export function getSecret(
 
 export const secretsAtom = atom<SECRETS>(SECRETS_SCHEMA.parse({}));
 
+// TODO: Fix
 export function validateConfig(config: CONFIG_SETTINGS, secrets: SECRETS) {
   const sttProvider = getProvider(config["stt/provider"]);
   if (!sttProvider) return false;

@@ -76,26 +76,6 @@ export default function Config({
   );
 }
 
-function Metrics({ metrics }: { metrics: Provider["metrics"] }) {
-  if (!metrics) return null;
-
-  return (
-    <div className="p-4">
-      {Object.entries(metrics).map(([metricId, { label, value }]) => (
-        <Tooltip key={metricId}>
-          <TooltipTrigger asChild>
-            <div key={metricId} className="flex justify-between space-x-12">
-              <p className="text-muted-foreground">{metricId}</p>
-              <span className="ml-2 font-mono">{value}</span>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="right">{label}</TooltipContent>
-        </Tooltip>
-      ))}
-    </div>
-  );
-}
-
 function STT({
   settings,
   secrets,
@@ -263,7 +243,6 @@ function LLM({
   });
 
   async function onSubmit(values: z.infer<typeof LLM_SCHEMA>) {
-    console.log(form.formState.dirtyFields);
     const changes = Object.entries(form.formState.dirtyFields).reduce(
       (changes, [key, isDirty]) => {
         if (isDirty) changes[key] = values[key as keyof typeof values];
@@ -316,6 +295,8 @@ function LLM({
                       value={field.value}
                       onChange={field.onChange}
                       providers={LLM_PROVIDERS}
+                      custom={true}
+                      rootForm={form}
                     />
                   </FormItem>
                 )}
@@ -532,5 +513,25 @@ function TTS({
         </div>
       </form>
     </Form>
+  );
+}
+
+function Metrics({ metrics }: { metrics: Provider["metrics"] }) {
+  if (!metrics) return null;
+
+  return (
+    <div className="p-4">
+      {Object.entries(metrics).map(([metricId, { label, value }]) => (
+        <Tooltip key={metricId}>
+          <TooltipTrigger asChild>
+            <div key={metricId} className="flex justify-between space-x-12">
+              <p className="text-muted-foreground">{metricId}</p>
+              <span className="ml-2 font-mono">{value}</span>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right">{label}</TooltipContent>
+        </Tooltip>
+      ))}
+    </div>
   );
 }

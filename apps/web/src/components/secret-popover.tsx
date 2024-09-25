@@ -94,6 +94,7 @@ export default function SecretPopup({
                 <button
                   onClick={async () => {
                     setDeleting(true);
+
                     await deleteSecret(
                       chatbotName,
                       provider.company,

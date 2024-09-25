@@ -15,7 +15,7 @@ export default async function UsagePage({
   const user = await currentUser();
   if (!user) redirect(env.NEXT_PUBLIC_CLERK_SIGN_IN_URL);
 
-  console.log("TODO: use a union instead");
+  // TODO: use a union instead
   const [allChatbots, pageSessions] = await Promise.all([
     db.query.chatbots.findMany({
       where: eq(chatbots.userId, user.id),

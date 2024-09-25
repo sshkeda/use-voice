@@ -47,7 +47,7 @@ export function useVoice(options = undefined) {
   onChatbotAudioRef.current = options?.onChatbotAudio;
 
   const [messages, setMessages] = useState(
-    /** @type {{ role: "assistant" | "user", content: string }[]} */ ([])
+    /** @type {{ role: "assistant" | "user", content: string }[]} */([])
   );
   const [input, setInput] = useState("");
 
@@ -57,10 +57,10 @@ export function useVoice(options = undefined) {
   const errorRef = useRef(null);
 
   const [localTrack, setLocalTrack] = useState(
-    /** @type {import("livekit-client").Track | null} */ (null)
+    /** @type {import("livekit-client").Track | null} */(null)
   );
   const [chatbotTrack, setChatbotTrack] = useState(
-    /** @type {import("livekit-client").Track | null} */ (null)
+    /** @type {import("livekit-client").Track | null} */(null)
   );
   useTrackVolume(onLocalAudioRef, localTrack);
   useTrackVolume(onChatbotAudioRef, chatbotTrack);
@@ -71,7 +71,7 @@ export function useVoice(options = undefined) {
   const microphoneRef = useRef(null);
 
   const [state, setState] = useState(
-    /** @type {"idle" | "requestingMicrophone" | "creatingRoom" |"joiningRoom" |"connected" | "error"} */ (
+    /** @type {"idle" | "requestingMicrophone" | "creatingRoom" |"joiningRoom" |"connected" | "error"} */(
       "idle"
     )
   );
@@ -105,7 +105,6 @@ export function useVoice(options = undefined) {
   const start = useCallback(async () => {
     const accessToken =
       options?.accessToken || process.env.NEXT_PUBLIC_USE_VOICE_ACCESS_TOKEN;
-    console.log(accessToken);
     if (!accessToken) return err("No access token.");
 
     errorRef.current = null;
@@ -169,7 +168,6 @@ export function useVoice(options = undefined) {
           const message = JSON.parse(
             JSON.parse(new TextDecoder().decode(data)).message
           );
-          console.log(message);
 
           if (message.type === "set-messages") {
             setIsLoading(false);
@@ -193,8 +191,6 @@ export function useVoice(options = undefined) {
         if (!track.track || track.kind != Track.Kind.Audio) return;
         setLocalTrack(track.track);
       })
-      // .on("participantDisconnected", stop)
-      .on("disconnected", console.log)
       .on(RoomEvent.ParticipantConnected, async () => {
         resetKeepAliveTimeout();
         await room.localParticipant.setMicrophoneEnabled(!joinMuted);
