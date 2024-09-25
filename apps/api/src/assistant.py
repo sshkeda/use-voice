@@ -1,3 +1,4 @@
+import json
 from livekit.agents import llm
 from livekit.agents.voice_assistant import VoiceAssistant
 from livekit.plugins import deepgram, openai, silero, elevenlabs, cartesia, anthropic
@@ -37,6 +38,14 @@ def get_llm(config, secrets):
         return anthropic.LLM(
             model=model,
             api_key=secrets["llm/Anthropic"],
+        )
+    elif company == "Custom":
+        custom_config = json.loads(secrets[f"llm/{model}"])
+        print(custom_config)
+        return openai.LLM(
+            model=model,
+            base_url=custom_config["baseURL"],
+            api_key=custom_config["apiKey"],
         )
     else:
         exit(0)
